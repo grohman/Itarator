@@ -238,12 +238,8 @@ class Itarator
 		return $this->config;
 	}
 	
-	
-	/**
-	 * @return int Number of consumed items.
-	 */
 	public function execute()
 	{
-		
+		$this->get()->run();
 	}
 }

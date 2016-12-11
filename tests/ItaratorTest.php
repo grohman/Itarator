@@ -317,4 +317,18 @@ class ItaratorTest extends PHPUnit_Framework_TestCase
 			
 		$subject->get();
 	}
+	
+	public function test_execute_RunOnRecursiveIteratorCalled()
+	{
+		$item = $this->createMock(RecursiveIterator::class);
+		$factory = $this->mockFactory($item);
+		
+		$subject = new Itarator();
+		$subject->setFactory($factory);
+		
+		$factory->method('get')->willReturn($item);
+		$item->expects($this->once())->method('run');
+			
+		$subject->execute();
+	}
 }
