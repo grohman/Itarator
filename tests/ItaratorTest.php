@@ -132,7 +132,7 @@ class ItaratorTest extends PHPUnit_Framework_TestCase
 		
 		/** @var NameRegexFilter $filter */
 		$filter =  $config->FileFilter;
-		$this->assertEquals('/.*\.a/', $filter->getRegex());
+		$this->assertEquals('/^.*\.a$/', $filter->getRegex());
 	}
 	
 	

@@ -25,7 +25,7 @@ class Itarator
 	private function createFilterForWildCard($filter)
 	{
 		$filter = preg_quote($filter);
-		$filter = '/' . str_replace(['\*'], ['.*'], $filter) . '/';
+		$filter = '/^' . str_replace(['\*'], ['.*'], $filter) . '$/';
 		return new NameRegexFilter($filter);
 	}
 	
