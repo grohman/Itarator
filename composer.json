@@ -1,0 +1,12 @@
+{
+    "name": "unstable-cacao/itarator",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alexey Puchkov",
+            "email": "alexey@oktopost.com"
+        }
+    ],
+    "require": {}
+}
