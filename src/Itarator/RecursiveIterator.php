@@ -4,43 +4,43 @@ namespace Itarator;
 
 class RecursiveIterator
 {
-	private $rootDir;
-	
-	/** @var IFilter */
-	private $dirFilter = null;
-	
-	/** @var IFilter */
-	private $fileFilter = null;
-	
-	/** @var IConsumer */
-	private $dirConsumer = null;
-	
-	/** @var IConsumer */
-	private $fileConsumer = null;
+	/** @var Config */
+	private $config;
 
 
 	/**
-	 * @param string $dir
-	 * @param IFilter $filter
-	 * @param IConsumer $consumer
+	 * @param string $item
+	 * @return string
 	 */
-	private function consume($dir, IFilter $filter = null, IConsumer $consumer = null)
+	private function getRelativePath($item)
 	{
-		if (!$consumer || !$filter) 
-			return;
+		if ($this->config->RelativePath == '/')
+			return $item;
 		
-		if (!$filter->filter($dir))
-			return;
+		$length = strlen($this->config->RelativePath);
 		
-		$consumer->consume($dir);
+		// Remove the last '/' character
+		return substr($item, $length + 1);
 	}
-
+	
 	/**
 	 * @param string $dir
 	 */
 	private function consumeDir($dir)
 	{
-		$this->consume($dir, $this->dirFilter, $this->dirConsumer);
+		$relativePath = $this->getRelativePath($dir);
+		
+		if ($this->config->DirFilter && !$this->config->DirFilter->filter($relativePath))
+		{
+			return;
+		}
+		
+		if ($this->config->DirConsumer)
+		{
+			$this->config->DirConsumer->consume($relativePath);
+		}
+		
+		$this->iterateDir($dir);
 	}
 
 	/**
@@ -48,60 +48,47 @@ class RecursiveIterator
 	 */
 	private function consumeFile($file)
 	{
-		$this->consume($file, $this->fileFilter, $this->fileConsumer);
-	}
-	
-	
-	
-	
-
-	/**
-	 * @param string $rootPath
-	 */
-	public function __construct($rootPath)
-	{
-	}
-
-
-	/**
-	 * @param IFilter|null $filter
-	 * @return static
-	 */
-	public function setDirFilter(IFilter $filter = null)
-	{
+		if (!$this->config->FileConsumer)
+			return;
 		
+		$relativePath = $this->getRelativePath($file);
+		
+		if ($this->config->FileFilter && !$this->config->FileFilter->filter($relativePath))
+			return;
+		
+		$this->config->FileConsumer->consume($relativePath);
 	}
 
 	/**
-	 * @param IFilter|null $filter
-	 * @return static
+	 * @param string $dir
 	 */
-	public function setFileFilter(IFilter $filter = null)
+	private function iterateDir($dir)
 	{
-		
+		foreach (glob($dir . '/*') as $item)
+		{
+			if (is_dir($item))
+			{
+				$this->consumeDir($item);
+			}
+			else
+			{
+				$this->consumeFile($item);
+			}
+		}
 	}
+	
 
 	/**
-	 * @param IConsumer|null $consumer
-	 * @return static
+	 * @param Config $config
 	 */
-	public function setDirConsumer(IConsumer $consumer = null)
+	public function setConfig(Config $config)
 	{
-		
-	}
-
-	/**
-	 * @param IConsumer|null $consumer
-	 * @return static
-	 */
-	public function setFileConsumer(IConsumer $consumer = null)
-	{
-		
+		$this->config = $config;
 	}
 	
 	
-	public function run($fileFilter = '*')
+	public function run()
 	{
-		
+		$this->iterateDir($this->config->RootDir);
 	}
 }
