@@ -55,19 +55,19 @@ class WildcardFilterTest extends \PHPUnit_Framework_TestCase
 	}
 	
 	
-	public function test_filter_MatchComma_ReturnTrue()
+	public function test_filter_MatchPeriod_ReturnTrue()
 	{
 		$subject = new WildcardFilter(['a.b']);
 		$this->assertTrue($subject->filter('a.b'));
 	}
 	
-	public function test_filter_NotMatchingComma_ReturnFalse()
+	public function test_filter_NotMatchingPeriod_ReturnFalse()
 	{
 		$subject = new WildcardFilter(['a.b']);
 		$this->assertFalse($subject->filter('aab'));
 	}
 	
-	public function test_filter_NotMatchingCommaInSubject_ReturnFalse()
+	public function test_filter_NotMatchingPeriodInSubject_ReturnFalse()
 	{
 		$subject = new WildcardFilter(['aab']);
 		$this->assertFalse($subject->filter('a.b'));
