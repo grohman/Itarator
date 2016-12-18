@@ -4,7 +4,7 @@ namespace Itarator\Filters;
 
 class WildcardFilterTest extends \PHPUnit_Framework_TestCase
 {
-	public function test_add_ReturnSelf()
+	public function test_ReturnSelf()
 	{
 		$subject = new WildcardFilter();
 		

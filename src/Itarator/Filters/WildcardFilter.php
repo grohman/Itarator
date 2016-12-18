@@ -8,8 +8,8 @@ use Itarator\IFilter;
 class WildcardFilter implements IFilter
 {
 	private $patterns = [];
-
-
+	
+	
 	/**
 	 * @param array|string $pattern
 	 */
@@ -17,8 +17,8 @@ class WildcardFilter implements IFilter
 	{
 		$this->addPattern($pattern);
 	}
-
-
+	
+	
 	/**
 	 * @param string|array $pattern
 	 * @return static
