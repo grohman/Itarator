@@ -2,6 +2,7 @@
     "name": "unstable-cacao/itarator",
     "type": "library",
     "license": "MIT",
+    "minimum-stability": "stable",
     "authors": [
         {
             "name": "Alexey Puchkov",
