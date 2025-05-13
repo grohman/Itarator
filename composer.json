@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "oktopost/objection": "^1.0"
+        "oktopost/objection": "^2.0"
     },
     "autoload": {
         "psr-0": {
